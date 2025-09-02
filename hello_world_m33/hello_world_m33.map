@@ -1,0 +1,193 @@
+
+Discarded input sections
+
+ .group         0x00000000        0xc hello_world_m33.o
+ .group         0x00000000        0xc hello_world_m33.o
+ .group         0x00000000        0xc hello_world_m33.o
+ .group         0x00000000        0xc hello_world_m33.o
+ .group         0x00000000        0xc hello_world_m33.o
+ .group         0x00000000        0xc hello_world_m33.o
+ .group         0x00000000        0xc hello_world_m33.o
+ .text          0x00000000        0x0 hello_world_m33.o
+ .data          0x00000000        0x0 hello_world_m33.o
+ .bss           0x00000000        0x0 hello_world_m33.o
+ .data          0x00000000        0x0 startup_m33.o
+ .bss           0x00000000        0x0 startup_m33.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x00000000         0x00100000         xr
+SRAM             0x20000000         0x00040000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD hello_world_m33.o
+LOAD startup_m33.o
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/15.1.0/thumb/v8-m.main/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/15.1.0/../../../../arm-none-eabi/lib/thumb/v8-m.main/nofp/libc.a
+END GROUP
+START GROUP
+LOAD /usr/lib/gcc/arm-none-eabi/15.1.0/thumb/v8-m.main/nofp/libgcc.a
+LOAD /usr/lib/gcc/arm-none-eabi/15.1.0/../../../../arm-none-eabi/lib/thumb/v8-m.main/nofp/libc.a
+LOAD /usr/lib/gcc/arm-none-eabi/15.1.0/../../../../arm-none-eabi/lib/thumb/v8-m.main/nofp/libnosys.a
+END GROUP
+                0x00001000                        _stack_size = 0x1000
+                0x20040000                        _estack = (ORIGIN (SRAM) + LENGTH (SRAM))
+
+.isr_vector     0x00000000       0x44
+                0x00000000                        . = ALIGN (0x4)
+ *(.isr_vector)
+ .isr_vector    0x00000000       0x44 startup_m33.o
+                0x00000000                g_pfnVectors
+                0x00000044                        . = ALIGN (0x4)
+
+.text           0x00000044      0x354
+                0x00000044                        . = ALIGN (0x4)
+ *(.text)
+ .text          0x00000044       0x64 startup_m33.o
+                0x00000044                Reset_Handler
+                0x00000086                DebugMon_Handler
+                0x00000086                HardFault_Handler
+                0x00000086                SysTick_Handler
+                0x00000086                PendSV_Handler
+                0x00000086                NMI_Handler
+                0x00000086                UsageFault_Handler
+                0x00000086                SecureFault_Handler
+                0x00000086                Default_Handler
+                0x00000086                MemManage_Handler
+                0x00000086                SVC_Handler
+                0x00000086                UART_Handler
+                0x00000086                BusFault_Handler
+ *(.text*)
+ .text.uart_puts
+                0x000000a8       0x2a hello_world_m33.o
+ .text.SystemInit
+                0x000000d2        0x2 hello_world_m33.o
+                0x000000d2                SystemInit
+ .text.startup.main
+                0x000000d4      0x104 hello_world_m33.o
+                0x000000d4                main
+ *(.rodata)
+ *(.rodata*)
+ .rodata.main.str1.1
+                0x000001d8      0x1bf hello_world_m33.o
+                0x00000398                        . = ALIGN (0x4)
+ *fill*         0x00000397        0x1 
+                0x00000398                        _etext = .
+
+.glue_7         0x00000398        0x0
+ .glue_7        0x00000398        0x0 linker stubs
+
+.glue_7t        0x00000398        0x0
+ .glue_7t       0x00000398        0x0 linker stubs
+
+.vfp11_veneer   0x00000398        0x0
+ .vfp11_veneer  0x00000398        0x0 linker stubs
+
+.v4_bx          0x00000398        0x0
+ .v4_bx         0x00000398        0x0 linker stubs
+
+.iplt           0x00000398        0x0
+ .iplt          0x00000398        0x0 hello_world_m33.o
+
+.rel.dyn        0x00000398        0x0
+ .rel.iplt      0x00000398        0x0 hello_world_m33.o
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+
+.ARM            0x00000398        0x0
+                0x00000398                        __exidx_start = .
+ *(.ARM.exidx*)
+                0x00000398                        __exidx_end = .
+
+.data           0x20000000        0x0 load address 0x00000398
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sdata = .
+ *(.data)
+ *(.data*)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _edata = .
+                0x00000398                        _sidata = LOADADDR (.data)
+
+.igot.plt       0x20000000        0x0 load address 0x00000398
+ .igot.plt      0x20000000        0x0 hello_world_m33.o
+
+.bss            0x20000000        0x0 load address 0x00000398
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _sbss = .
+ *(.bss)
+ *(.bss*)
+ *(COMMON)
+                0x20000000                        . = ALIGN (0x4)
+                0x20000000                        _ebss = .
+
+.stack          0x20000000     0x1000 load address 0x00000398
+                0x20000000                        . = ALIGN (0x8)
+                0x20001000                        . = (. + _stack_size)
+ *fill*         0x20000000     0x1000 
+                0x20001000                        . = ALIGN (0x8)
+
+/DISCARD/
+ *(.note.GNU-stack)
+ *(.gnu_debuglink)
+ *(.gnu.lto_*)
+                [!provide]                        PROVIDE (_stack_start = (_estack - _stack_size))
+                [!provide]                        PROVIDE (_heap_start = _ebss)
+                [!provide]                        PROVIDE (_heap_end = _stack_start)
+OUTPUT(hello_world_m33.elf elf32-littlearm)
+LOAD linker stubs
+
+.debug_info     0x00000000      0x369
+ .debug_info    0x00000000      0x369 hello_world_m33.o
+
+.debug_abbrev   0x00000000      0x1f1
+ .debug_abbrev  0x00000000      0x1f1 hello_world_m33.o
+
+.debug_loclists
+                0x00000000      0x11a
+ .debug_loclists
+                0x00000000      0x11a hello_world_m33.o
+
+.debug_aranges  0x00000000       0x30
+ .debug_aranges
+                0x00000000       0x30 hello_world_m33.o
+
+.debug_rnglists
+                0x00000000       0x66
+ .debug_rnglists
+                0x00000000       0x66 hello_world_m33.o
+
+.debug_macro    0x00000000      0xfaa
+ .debug_macro   0x00000000       0xbd hello_world_m33.o
+ .debug_macro   0x000000bd      0xad8 hello_world_m33.o
+ .debug_macro   0x00000b95       0x22 hello_world_m33.o
+ .debug_macro   0x00000bb7       0x56 hello_world_m33.o
+ .debug_macro   0x00000c0d       0x51 hello_world_m33.o
+ .debug_macro   0x00000c5e      0x103 hello_world_m33.o
+ .debug_macro   0x00000d61       0x6a hello_world_m33.o
+ .debug_macro   0x00000dcb      0x1df hello_world_m33.o
+
+.debug_line     0x00000000      0x2ce
+ .debug_line    0x00000000      0x2ce hello_world_m33.o
+
+.debug_str      0x00000000     0x3de8
+ .debug_str     0x00000000     0x3de8 hello_world_m33.o
+                               0x3f4c (size before relaxing)
+
+.comment        0x00000000       0x23
+ .comment       0x00000000       0x23 hello_world_m33.o
+                                 0x24 (size before relaxing)
+
+.ARM.attributes
+                0x00000000       0x32
+ .ARM.attributes
+                0x00000000       0x34 hello_world_m33.o
+ .ARM.attributes
+                0x00000034       0x24 startup_m33.o
+
+.debug_frame    0x00000000       0x54
+ .debug_frame   0x00000000       0x54 hello_world_m33.o

@@ -1,0 +1,18 @@
+using sysbus
+mach create
+machine LoadPlatformDescription @cortex_m33_platform.repl
+
+showAnalyzer uart
+
+macro reset
+"""
+    sysbus LoadELF @hello_world_m33.elf
+"""
+
+runMacro $reset
+
+sysbus.uart CreateFileBackend @uart_output.log
+
+echo "ARM Cortex-M33 platform loaded successfully!"
+echo "Type 'start' to begin execution."
+echo "UART output will be shown here and logged to uart_output.log"

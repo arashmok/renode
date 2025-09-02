@@ -1,0 +1,20 @@
+# ARM Cortex-M33 Custom Board Startup Script
+# This script initializes the custom board platform and loads the demo program
+
+# Load the platform definition
+using sysbus
+mach create
+machine LoadPlatformDescription @cortex_m33_platform.repl
+
+# Show platform information
+showAnalyzer uart
+
+# Load the program - use simpler load method
+sysbus LoadELF @hello_world_m33.elf
+
+# Create analyzers for debugging
+sysbus.uart CreateFileBackend @uart_output.log
+
+# Ready to start
+echo "ARM Cortex-M33 custom board loaded. Type 'start' to begin execution."
+echo "UART output will be logged to uart_output.log"
