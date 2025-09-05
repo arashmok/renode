@@ -1,0 +1,35 @@
+# Demo script showing inter-machine communication
+
+# Machine 1 Setup
+mach create "machine1"
+machine LoadPlatformDescription @simple_platform.repl
+sysbus LoadELF @machine1.elf
+
+# Machine 2 Setup  
+mach create "machine2"
+machine LoadPlatformDescription @simple_platform.repl
+sysbus LoadELF @machine2.elf
+
+# Create UART Hub for inter-machine communication
+emulation CreateUARTHub "uart_hub"
+
+# Connect both machines' UART1 to the hub
+mach set "machine1"
+connector Connect sysbus.uart1 uart_hub
+showAnalyzer sysbus.uart0 "Machine1_Console"
+
+mach set "machine2"
+connector Connect sysbus.uart1 uart_hub
+showAnalyzer sysbus.uart0 "Machine2_Console"
+
+echo ""
+echo "==================================="
+echo "Multi-Machine Communication Demo"
+echo "==================================="
+echo "Machine1 will send messages via UART1"
+echo "Machine2 will receive and acknowledge"
+echo ""
+echo "Type 'start' to begin the demo"
+echo "Type 'pause' to pause"
+echo "Type 'quit' to exit"
+echo "==================================="

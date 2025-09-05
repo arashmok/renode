@@ -1,0 +1,27 @@
+cpu: CPU.RiscV32 @ sysbus
+    cpuType: "rv32imac"
+    timeProvider: clint
+
+clint: IRQControllers.CoreLevelInterruptor @ sysbus 0x02000000
+    frequency: 66000000
+    [0, 1] -> cpu@[3, 7]
+
+plic: IRQControllers.PlatformLevelInterruptController @ sysbus 0x0c000000
+    0 -> cpu@11
+    numberOfSources: 52
+    numberOfContexts: 1
+
+ddr: Memory.MappedMemory @ sysbus 0x80000000
+    size: 0x10000000
+
+flash: Memory.MappedMemory @ sysbus 0x20000000
+    size: 0x1000000
+
+uart0: UART.NS16550 @ sysbus 0x10013000
+    -> plic@10
+
+uart1: UART.NS16550 @ sysbus 0x10023000
+    -> plic@11
+
+gpio: GPIOPort.SiFive_GPIO @ sysbus 0x10012000
+    [0-31] -> plic@[16-47]
