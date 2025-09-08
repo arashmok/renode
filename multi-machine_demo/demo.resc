@@ -1,0 +1,55 @@
+# Multi-Machine UART Hub Communication Demo
+
+mach clear
+
+# Create two machines for communication
+mach create "machine1"
+machine LoadPlatformDescription @simple_platform.repl
+sysbus LoadELF @uart_test.elf
+
+mach create "machine2"
+machine LoadPlatformDescription @simple_platform.repl
+sysbus LoadELF @uart_test.elf
+
+# Suppress stack pointer warnings
+mach set "machine1"
+sysbus SilenceRange <0xFFFFFFF0, 0xFFFFFFFF>
+
+mach set "machine2"
+sysbus SilenceRange <0xFFFFFFF0, 0xFFFFFFFF>
+
+# Create UART Hub for inter-machine communication
+emulation CreateUARTHub "uart_hub"
+
+# Connect both machines' UART1 to the hub
+mach set "machine1"
+connector Connect sysbus.uart1 uart_hub
+showAnalyzer sysbus.uart0
+showAnalyzer sysbus.uart1
+
+mach set "machine2"
+connector Connect sysbus.uart1 uart_hub
+showAnalyzer sysbus.uart0
+showAnalyzer sysbus.uart1
+
+echo ""
+echo "=========================================="
+echo "Multi-Machine UART Hub Demo"
+echo "=========================================="
+echo "Two machines connected via UART1 hub"
+echo "Console output on UART0"
+echo "Starting simulation..."
+echo "=========================================="
+
+# Start the simulation
+start
+
+echo ""
+echo "Demo running successfully!"
+echo ""
+echo "Expected output:"
+echo "- UART0: 'Machine starting...' from both machines"
+echo "- UART1: 'Hello from machine!' from both machines (2x in each window)"
+echo ""
+echo "This demonstrates working multi-machine UART hub communication."
+echo "Type 'quit' to exit"
