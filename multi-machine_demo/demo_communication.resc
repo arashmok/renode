@@ -16,11 +16,11 @@ emulation CreateUARTHub "uart_hub"
 # Connect both machines' UART1 to the hub
 mach set "machine1"
 connector Connect sysbus.uart1 uart_hub
-showAnalyzer sysbus.uart0 "Machine1_Console"
+showAnalyzer sysbus.uart0
 
 mach set "machine2"
 connector Connect sysbus.uart1 uart_hub
-showAnalyzer sysbus.uart0 "Machine2_Console"
+showAnalyzer sysbus.uart0
 
 echo ""
 echo "==================================="
