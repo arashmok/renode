@@ -8,6 +8,7 @@ This project demonstrates inter-machine communication using Renode's UART hub fu
 - `simple_platform.repl` - Platform description for RISC-V machines
 - `uart_test.elf` - Simple test program that outputs to UART0 and UART1
 - `uart_test.c` - Source code for the test program
+- `LEARNING_MATERIAL.md` - **Deep dive explanation of .resc and .repl files**
 
 ## How to Run
 
