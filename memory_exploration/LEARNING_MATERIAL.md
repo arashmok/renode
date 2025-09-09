@@ -648,6 +648,31 @@ while (1) {
 
 ### Memory Debugging Workflow
 
+#### **Common Issues and Solutions**
+
+**Problem**: `arm-none-eabi-gdb: command not found`
+**Solution**: Use standard `gdb` with ARM architecture setting:
+```bash
+# Instead of: arm-none-eabi-gdb memory_test.elf
+# Use this:
+gdb memory_test.elf
+(gdb) set architecture arm
+(gdb) target remote :2345
+```
+
+**Problem**: `target remote :3333` connection refused
+**Solution**: Use port 2345 (Renode default) instead of 3333:
+```bash
+(gdb) target remote :2345
+```
+
+**Problem**: GDB shows "unknown architecture" 
+**Solution**: Explicitly set ARM architecture before connecting:
+```bash
+(gdb) set architecture arm
+(gdb) show architecture  # Verify it's set to ARM
+```
+
 #### **Step 1: Locate Variables in Memory**
 
 Using Renode's GDB integration:
@@ -698,11 +723,11 @@ Using map file and objdump:
 # View memory map
 cat memory_test.map
 
-# Disassemble with addresses
-arm-none-eabi-objdump -d -S memory_test.elf
+# Disassemble with addresses (use regular objdump for ARM binaries)
+objdump -d -S memory_test.elf
 
 # View section headers
-arm-none-eabi-objdump -h memory_test.elf
+objdump -h memory_test.elf
 ```
 
 ### Memory Analysis Techniques
@@ -778,9 +803,43 @@ void* simple_malloc(uint32_t size) {
 
 ### Setting Up Debug Environment
 
+#### **Tool Requirements and Alternatives**
+
+**Standard Setup (if ARM toolchain is installed):**
+- `arm-none-eabi-gdb` for ARM-specific debugging
+- `arm-none-eabi-objdump` for ARM disassembly
+- `arm-none-eabi-size` for memory analysis
+
+**Alternative Setup (using standard GNU tools on Fedora/most Linux systems):**
+- `gdb` with `set architecture arm` for ARM debugging
+- `objdump` for disassembly (works with ARM ELF files)
+- `size` and `nm` for memory and symbol analysis
+
+**Our Platform Uses:** Standard GNU tools since they provide full ARM support when properly configured.
+
+**Why This Works:**
+- Modern `gdb` includes support for multiple architectures, including ARM
+- The `set architecture arm` command tells GDB to interpret the binary as ARM code
+- Standard `objdump`, `size`, and `nm` can analyze ARM ELF files
+- This approach works on most Linux distributions without requiring specialized ARM toolchains
+
+**System-Specific Notes:**
+- **Fedora/RHEL**: Standard tools from `binutils` and `gdb` packages work perfectly
+- **Ubuntu/Debian**: Same approach using standard repository packages
+- **Embedded Development**: ARM cross-compilation toolchain preferred but not required for debugging pre-built ELFs
+
 #### **Starting Renode Debug Session**
 
 1. **Load Platform and Program**:
+```
+# Start Renode
+/home/octets/renode_portable/renode --console --disable-xwt
+
+# In Renode monitor, load the debug script
+(monitor) include @debug_session.resc
+```
+
+Alternatively, you can load components individually:
 ```
 # In Renode monitor
 include @simple_m33.repl
@@ -790,17 +849,20 @@ sysbus LoadELF @memory_test.elf
 2. **Start GDB Server**:
 ```
 # In Renode monitor
-machine StartGdbServer 3333
+machine StartGdbServer 2345
 ```
 
 3. **Connect GDB**:
 ```bash
 # In terminal
-arm-none-eabi-gdb memory_test.elf
-(gdb) target remote :3333
+gdb memory_test.elf
+(gdb) set architecture arm
+(gdb) target remote :2345
 ```
 
 #### **Essential GDB Commands for Memory Exploration**
+
+**Note**: On systems without `arm-none-eabi-gdb`, use regular `gdb` with `set architecture arm` command to enable ARM debugging support.
 
 **Memory Examination Commands:**
 ```gdb
@@ -1161,14 +1223,14 @@ __asm__ volatile ("isb" : : : "memory");  // Instruction Synchronization Barrier
 
 Use tools to understand memory usage:
 ```bash
-# View section sizes
-arm-none-eabi-size memory_test.elf
+# View section sizes (use regular size for ARM binaries)
+size memory_test.elf
 
 # Detailed section information
-arm-none-eabi-objdump -h memory_test.elf
+objdump -h memory_test.elf
 
 # Symbol sizes and addresses
-arm-none-eabi-nm -S -n memory_test.elf
+nm -S -n memory_test.elf
 ```
 
 **Sample Output Analysis:**

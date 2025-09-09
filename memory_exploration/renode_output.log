@@ -1,0 +1,29 @@
+18:57:12.3242 [INFO] Loaded monitor commands from: /home/octets/renode_portable/scripts/monitor.py
+[0mRenode, version 1.15.3.4306 (b35bde0f-202507110223)
+
+[31;1m(monitor) [0minclude @debug_session.resc
+18:57:12.3563 [INFO] Including script: /home/octets/renode/memory_exploration/debug_session.resc
+18:57:12.3683 [INFO] System bus created.
+18:57:13.0763 [INFO] sysbus: Loading block of 280 bytes length at 0x20000000.
+18:57:13.1204 [INFO] memory_explorer: CPUs: ["memory_explorer.cpu"] were added to a new GDB server created on port :2345
+18:57:13.1204 [INFO] memory_explorer: GDB server with all CPUs started on port :2345
+
+========================================
+Memory Exploration Debug Setup Complete
+========================================
+Platform: ARM Cortex-M33 with 64KB SRAM
+Program: memory_test.elf loaded
+GDB Server: Started on port 2345
+
+To connect with GDB, run in another terminal:
+  cd /home/octets/renode/memory_exploration
+  gdb memory_test.elf
+  (gdb) set architecture arm
+  (gdb) target remote :2345
+  (gdb) continue
+========================================
+Starting emulation...
+18:57:13.1774 [INFO] cpu: Guessing VectorTableOffset value to be 0x20000000.
+18:57:13.1803 [INFO] cpu: Setting initial values: PC = 0x200000A9, SP = 0x20010000.
+18:57:13.1823 [INFO] memory_explorer: Machine started.
+[33;1m(memory_explorer) [0m
