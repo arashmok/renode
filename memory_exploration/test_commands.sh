@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Simple test script to verify the project works
+# You can run the commands inside manually in Renode
+
+echo "=== Memory Exploration Project Test ==="
+echo ""
+echo "To test this project in Renode, run these commands:"
+echo ""
+echo "1. Start Renode"
+echo "2. Load the platform:"
+echo "   include @simple_m33.repl"
+echo ""
+echo "3. Load the ELF file:"
+echo "   sysbus LoadELF @memory_test.elf"
+echo ""
+echo "4. Start execution:"
+echo "   start"
+echo ""
+echo "5. To check memory content (optional):"
+echo "   sysbus ReadDoubleWord 0x20000000"
+echo "   sysbus ReadDoubleWord 0x20000004"
+echo "   sysbus ReadDoubleWord 0x20000008"
+echo ""
+echo "6. To pause and debug:"
+echo "   pause"
+echo ""
+echo "The program will run in an infinite loop, incrementing global_var"
+echo "and updating test_array[0]. You can observe these changes through"
+echo "VSCode debugging tools when connected to Renode."

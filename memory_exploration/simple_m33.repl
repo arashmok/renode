@@ -1,0 +1,15 @@
+// Minimal ARM Cortex-M33 Platform for Memory Exploration
+// This platform contains only the essential components for debugging memory and registers
+
+cpu: CPU.CortexM @ sysbus
+    cpuType: "cortex-m33"
+    nvic: nvic
+
+// SRAM for general memory manipulation
+sram: Memory.MappedMemory @ sysbus 0x20000000
+    size: 0x00010000
+
+// NVIC is required for Cortex-M33 CPU
+nvic: IRQControllers.NVIC @ sysbus 0xE000E000
+    -> cpu@0
+    priorityMask: 0xF0

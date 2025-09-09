@@ -1,0 +1,481 @@
+
+memory_test.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+20000000 <__isr_vector>:
+20000000:	20010000 			@ <UNDEFINED> instruction: 20010000
+20000004:	200000a9 			@ <UNDEFINED> instruction: 200000a9
+	...
+
+20000010 <memory_exploration>:
+20000010:	b480      	push	{r7}
+20000012:	b085      	sub	sp, #20
+20000014:	af00      	add	r7, sp, #0
+20000016:	f04f 5300 	mov.w	r3, #536870912	@ 0x20000000
+2000001a:	60bb      	str	r3, [r7, #8]
+2000001c:	68bb      	ldr	r3, [r7, #8]
+2000001e:	4a1a      	ldr	r2, [pc, #104]	@ (20000088 <memory_exploration+0x78>)
+20000020:	601a      	str	r2, [r3, #0]
+20000022:	68bb      	ldr	r3, [r7, #8]
+20000024:	3304      	adds	r3, #4
+20000026:	4a19      	ldr	r2, [pc, #100]	@ (2000008c <memory_exploration+0x7c>)
+20000028:	601a      	str	r2, [r3, #0]
+2000002a:	68bb      	ldr	r3, [r7, #8]
+2000002c:	3308      	adds	r3, #8
+2000002e:	4a18      	ldr	r2, [pc, #96]	@ (20000090 <memory_exploration+0x80>)
+20000030:	601a      	str	r2, [r3, #0]
+20000032:	2300      	movs	r3, #0
+20000034:	60fb      	str	r3, [r7, #12]
+20000036:	e00a      	b.n	2000004e <memory_exploration+0x3e>
+20000038:	68fb      	ldr	r3, [r7, #12]
+2000003a:	f503 5380 	add.w	r3, r3, #4096	@ 0x1000
+2000003e:	4619      	mov	r1, r3
+20000040:	4a14      	ldr	r2, [pc, #80]	@ (20000094 <memory_exploration+0x84>)
+20000042:	68fb      	ldr	r3, [r7, #12]
+20000044:	f842 1023 	str.w	r1, [r2, r3, lsl #2]
+20000048:	68fb      	ldr	r3, [r7, #12]
+2000004a:	3301      	adds	r3, #1
+2000004c:	60fb      	str	r3, [r7, #12]
+2000004e:	68fb      	ldr	r3, [r7, #12]
+20000050:	2b0f      	cmp	r3, #15
+20000052:	ddf1      	ble.n	20000038 <memory_exploration+0x28>
+20000054:	4b10      	ldr	r3, [pc, #64]	@ (20000098 <memory_exploration+0x88>)
+20000056:	681b      	ldr	r3, [r3, #0]
+20000058:	3301      	adds	r3, #1
+2000005a:	4a0f      	ldr	r2, [pc, #60]	@ (20000098 <memory_exploration+0x88>)
+2000005c:	6013      	str	r3, [r2, #0]
+2000005e:	4b0e      	ldr	r3, [pc, #56]	@ (20000098 <memory_exploration+0x88>)
+20000060:	681b      	ldr	r3, [r3, #0]
+20000062:	607b      	str	r3, [r7, #4]
+20000064:	687b      	ldr	r3, [r7, #4]
+20000066:	005b      	lsls	r3, r3, #1
+20000068:	607b      	str	r3, [r7, #4]
+2000006a:	687b      	ldr	r3, [r7, #4]
+2000006c:	4a09      	ldr	r2, [pc, #36]	@ (20000094 <memory_exploration+0x84>)
+2000006e:	6013      	str	r3, [r2, #0]
+20000070:	2300      	movs	r3, #0
+20000072:	603b      	str	r3, [r7, #0]
+20000074:	e002      	b.n	2000007c <memory_exploration+0x6c>
+20000076:	683b      	ldr	r3, [r7, #0]
+20000078:	3301      	adds	r3, #1
+2000007a:	603b      	str	r3, [r7, #0]
+2000007c:	683b      	ldr	r3, [r7, #0]
+2000007e:	f5b3 7f7a 	cmp.w	r3, #1000	@ 0x3e8
+20000082:	dbf8      	blt.n	20000076 <memory_exploration+0x66>
+20000084:	e7e6      	b.n	20000054 <memory_exploration+0x44>
+20000086:	bf00      	nop
+20000088:	deadbeef 			@ <UNDEFINED> instruction: deadbeef
+2000008c:	cafebabe 			@ <UNDEFINED> instruction: cafebabe
+20000090:	feedface 			@ <UNDEFINED> instruction: feedface
+20000094:	200000d8 	ldrdcs	r0, [r0], -r8
+20000098:	200000d4 	ldrdcs	r0, [r0], -r4
+
+2000009c <main>:
+2000009c:	b580      	push	{r7, lr}
+2000009e:	af00      	add	r7, sp, #0
+200000a0:	f7ff ffb6 	bl	20000010 <memory_exploration>
+200000a4:	bf00      	nop
+200000a6:	e7fd      	b.n	200000a4 <main+0x8>
+
+200000a8 <Reset_Handler>:
+200000a8:	f8df d01c 	ldr.w	sp, [pc, #28]	@ 200000c8 <loop_forever+0x4>
+200000ac:	4807      	ldr	r0, [pc, #28]	@ (200000cc <loop_forever+0x8>)
+200000ae:	4908      	ldr	r1, [pc, #32]	@ (200000d0 <loop_forever+0xc>)
+200000b0:	f04f 0200 	mov.w	r2, #0
+
+200000b4 <bss_loop>:
+200000b4:	4288      	cmp	r0, r1
+200000b6:	da03      	bge.n	200000c0 <bss_done>
+200000b8:	6002      	str	r2, [r0, #0]
+200000ba:	f100 0004 	add.w	r0, r0, #4
+200000be:	e7f9      	b.n	200000b4 <bss_loop>
+
+200000c0 <bss_done>:
+200000c0:	f7ff ffec 	bl	2000009c <main>
+
+200000c4 <loop_forever>:
+200000c4:	e7fe      	b.n	200000c4 <loop_forever>
+200000c6:	00000000 			@ <UNDEFINED> instruction: 00000000
+200000ca:	00d82001 			@ <UNDEFINED> instruction: 00d82001
+200000ce:	01182000 			@ <UNDEFINED> instruction: 01182000
+200000d2:	Address 0x200000d2 is out of bounds.
+
+
+Disassembly of section .data:
+
+200000d4 <global_var>:
+200000d4:	12345678 			@ <UNDEFINED> instruction: 12345678
+
+Disassembly of section .debug_info:
+
+00000000 <.debug_info>:
+   0:	0000010d 			@ <UNDEFINED> instruction: 0000010d
+   4:	04010005 			@ <UNDEFINED> instruction: 04010005
+   8:	00000000 			@ <UNDEFINED> instruction: 00000000
+   c:	00001805 			@ <UNDEFINED> instruction: 00001805
+  10:	47031d00 			@ <UNDEFINED> instruction: 47031d00
+  14:	8d000316 			@ <UNDEFINED> instruction: 8d000316
+  18:	a1000000 			@ <UNDEFINED> instruction: a1000000
+  1c:	10000000 			@ <UNDEFINED> instruction: 10000000
+  20:	98200000 			@ <UNDEFINED> instruction: 98200000
+  24:	00000000 			@ <UNDEFINED> instruction: 00000000
+  28:	06000000 			@ <UNDEFINED> instruction: 06000000
+  2c:	0000007f 			@ <UNDEFINED> instruction: 0000007f
+  30:	3c160601 			@ <UNDEFINED> instruction: 3c160601
+  34:	01000000 			@ <UNDEFINED> instruction: 01000000
+  38:	0000002b 			@ <UNDEFINED> instruction: 0000002b
+  3c:	00070407 			@ <UNDEFINED> instruction: 00070407
+  40:	03000000 	movweq	r0, #0
+  44:	0000000d 			@ <UNDEFINED> instruction: 0000000d
+  48:	00003709 			@ <UNDEFINED> instruction: 00003709
+  4c:	d4030500 			@ <UNDEFINED> instruction: d4030500
+  50:	08200000 			@ <UNDEFINED> instruction: 08200000
+  54:	00000037 			@ <UNDEFINED> instruction: 00000037
+  58:	00000063 			@ <UNDEFINED> instruction: 00000063
+  5c:	00003c09 			@ <UNDEFINED> instruction: 00003c09
+  60:	01000f00 			@ <UNDEFINED> instruction: 01000f00
+  64:	00000053 			@ <UNDEFINED> instruction: 00000053
+  68:	0000c803 			@ <UNDEFINED> instruction: 0000c803
+  6c:	00630a00 			@ <UNDEFINED> instruction: 00630a00
+  70:	03050000 	movweq	r0, #20480	@ 0x5000
+  74:	200000d8 	ldrdcs	r0, [r0], -r8
+  78:	0000880a 			@ <UNDEFINED> instruction: 0000880a
+  7c:	05280100 			@ <UNDEFINED> instruction: 05280100
+  80:	0000008e 			@ <UNDEFINED> instruction: 0000008e
+  84:	2000009c 			@ <UNDEFINED> instruction: 2000009c
+  88:	0000000c 			@ <UNDEFINED> instruction: 0000000c
+  8c:	040b9c01 			@ <UNDEFINED> instruction: 040b9c01
+  90:	746e6905 			@ <UNDEFINED> instruction: 746e6905
+  94:	008e0100 			@ <UNDEFINED> instruction: 008e0100
+  98:	b50c0000 			@ <UNDEFINED> instruction: b50c0000
+  9c:	01000000 			@ <UNDEFINED> instruction: 01000000
+  a0:	0010060c 			@ <UNDEFINED> instruction: 0010060c
+  a4:	008c2000 			@ <UNDEFINED> instruction: 008c2000
+  a8:	9c010000 			@ <UNDEFINED> instruction: 9c010000
+  ac:	0000010a 			@ <UNDEFINED> instruction: 0000010a
+  b0:	0000d302 			@ <UNDEFINED> instruction: 0000d302
+  b4:	0a180e00 			@ <UNDEFINED> instruction: 0a180e00
+  b8:	02000001 			@ <UNDEFINED> instruction: 02000001
+  bc:	320d7091 			@ <UNDEFINED> instruction: 320d7091
+  c0:	22200000 			@ <UNDEFINED> instruction: 22200000
+  c4:	d9000000 			@ <UNDEFINED> instruction: d9000000
+  c8:	0e000000 			@ <UNDEFINED> instruction: 0e000000
+  cc:	16010069 			@ <UNDEFINED> instruction: 16010069
+  d0:	00008e0e 			@ <UNDEFINED> instruction: 00008e0e
+  d4:	74910200 			@ <UNDEFINED> instruction: 74910200
+  d8:	00540400 			@ <UNDEFINED> instruction: 00540400
+  dc:	00302000 			@ <UNDEFINED> instruction: 00302000
+  e0:	dc020000 			@ <UNDEFINED> instruction: dc020000
+  e4:	1f000000 			@ <UNDEFINED> instruction: 1f000000
+  e8:	0000371b 			@ <UNDEFINED> instruction: 0000371b
+  ec:	6c910200 			@ <UNDEFINED> instruction: 6c910200
+  f0:	00007004 			@ <UNDEFINED> instruction: 00007004
+  f4:	00001420 			@ <UNDEFINED> instruction: 00001420
+  f8:	009b0200 			@ <UNDEFINED> instruction: 009b0200
+  fc:	1b240000 			@ <UNDEFINED> instruction: 1b240000
+ 100:	00000095 			@ <UNDEFINED> instruction: 00000095
+ 104:	00689102 			@ <UNDEFINED> instruction: 00689102
+ 108:	040f0000 			@ <UNDEFINED> instruction: 040f0000
+ 10c:	00000037 			@ <UNDEFINED> instruction: 00000037
+ 110:	00002000 			@ <UNDEFINED> instruction: 00002000
+ 114:	01000500 			@ <UNDEFINED> instruction: 01000500
+ 118:	0000e304 			@ <UNDEFINED> instruction: 0000e304
+ 11c:	009e0100 			@ <UNDEFINED> instruction: 009e0100
+ 120:	00a80000 			@ <UNDEFINED> instruction: 00a80000
+ 124:	e12c2000 			@ <UNDEFINED> instruction: e12c2000
+ 128:	a1000000 			@ <UNDEFINED> instruction: a1000000
+ 12c:	eb000000 			@ <UNDEFINED> instruction: eb000000
+ 130:	01000000 			@ <UNDEFINED> instruction: 01000000
+ 134:	Address 0x134 is out of bounds.
+
+
+Disassembly of section .debug_abbrev:
+
+00000000 <.debug_abbrev>:
+   0:	49003501 			@ <UNDEFINED> instruction: 49003501
+   4:	02000013 			@ <UNDEFINED> instruction: 02000013
+   8:	0e030034 			@ <UNDEFINED> instruction: 0e030034
+   c:	3b01213a 			@ <UNDEFINED> instruction: 3b01213a
+  10:	490b390b 			@ <UNDEFINED> instruction: 490b390b
+  14:	00180213 			@ <UNDEFINED> instruction: 00180213
+  18:	00340300 			@ <UNDEFINED> instruction: 00340300
+  1c:	213a0e03 			@ <UNDEFINED> instruction: 213a0e03
+  20:	390b3b01 			@ <UNDEFINED> instruction: 390b3b01
+  24:	13491321 	movtne	r1, #37665	@ 0x9321
+  28:	1802193f 			@ <UNDEFINED> instruction: 1802193f
+  2c:	0b040000 			@ <UNDEFINED> instruction: 0b040000
+  30:	12011101 			@ <UNDEFINED> instruction: 12011101
+  34:	05000006 			@ <UNDEFINED> instruction: 05000006
+  38:	0e250111 			@ <UNDEFINED> instruction: 0e250111
+  3c:	01900b13 			@ <UNDEFINED> instruction: 01900b13
+  40:	0601910b 			@ <UNDEFINED> instruction: 0601910b
+  44:	0e1b0e03 			@ <UNDEFINED> instruction: 0e1b0e03
+  48:	06120111 			@ <UNDEFINED> instruction: 06120111
+  4c:	00001710 			@ <UNDEFINED> instruction: 00001710
+  50:	03001606 	movweq	r1, #1542	@ 0x606
+  54:	3b0b3a0e 			@ <UNDEFINED> instruction: 3b0b3a0e
+  58:	490b390b 			@ <UNDEFINED> instruction: 490b390b
+  5c:	07000013 	smladeq	r0, r3, r0, r0
+  60:	0b0b0024 			@ <UNDEFINED> instruction: 0b0b0024
+  64:	0e030b3e 	vmoveq.16	d3[0], r0
+  68:	01080000 			@ <UNDEFINED> instruction: 01080000
+  6c:	01134901 			@ <UNDEFINED> instruction: 01134901
+  70:	09000013 			@ <UNDEFINED> instruction: 09000013
+  74:	13490021 	movtne	r0, #36897	@ 0x9021
+  78:	00000b2f 			@ <UNDEFINED> instruction: 00000b2f
+  7c:	3f002e0a 			@ <UNDEFINED> instruction: 3f002e0a
+  80:	3a0e0319 			@ <UNDEFINED> instruction: 3a0e0319
+  84:	390b3b0b 			@ <UNDEFINED> instruction: 390b3b0b
+  88:	4919270b 			@ <UNDEFINED> instruction: 4919270b
+  8c:	12011113 			@ <UNDEFINED> instruction: 12011113
+  90:	7c184006 			@ <UNDEFINED> instruction: 7c184006
+  94:	0b000019 			@ <UNDEFINED> instruction: 0b000019
+  98:	0b0b0024 			@ <UNDEFINED> instruction: 0b0b0024
+  9c:	08030b3e 			@ <UNDEFINED> instruction: 08030b3e
+  a0:	2e0c0000 			@ <UNDEFINED> instruction: 2e0c0000
+  a4:	03193f01 			@ <UNDEFINED> instruction: 03193f01
+  a8:	3b0b3a0e 			@ <UNDEFINED> instruction: 3b0b3a0e
+  ac:	270b390b 			@ <UNDEFINED> instruction: 270b390b
+  b0:	12011119 			@ <UNDEFINED> instruction: 12011119
+  b4:	7a184006 			@ <UNDEFINED> instruction: 7a184006
+  b8:	00130119 			@ <UNDEFINED> instruction: 00130119
+  bc:	010b0d00 			@ <UNDEFINED> instruction: 010b0d00
+  c0:	06120111 			@ <UNDEFINED> instruction: 06120111
+  c4:	00001301 			@ <UNDEFINED> instruction: 00001301
+  c8:	0300340e 	movweq	r3, #1038	@ 0x40e
+  cc:	3b0b3a08 			@ <UNDEFINED> instruction: 3b0b3a08
+  d0:	490b390b 			@ <UNDEFINED> instruction: 490b390b
+  d4:	00180213 			@ <UNDEFINED> instruction: 00180213
+  d8:	000f0f00 			@ <UNDEFINED> instruction: 000f0f00
+  dc:	13490b0b 	movtne	r0, #39691	@ 0x9b0b
+  e0:	01000000 			@ <UNDEFINED> instruction: 01000000
+  e4:	17100011 			@ <UNDEFINED> instruction: 17100011
+  e8:	0f120111 			@ <UNDEFINED> instruction: 0f120111
+  ec:	0e1b0e03 			@ <UNDEFINED> instruction: 0e1b0e03
+  f0:	05130e25 			@ <UNDEFINED> instruction: 05130e25
+  f4:	Address 0xf4 is out of bounds.
+
+
+Disassembly of section .debug_aranges:
+
+00000000 <.debug_aranges>:
+   0:	0000001c 			@ <UNDEFINED> instruction: 0000001c
+   4:	00000002 			@ <UNDEFINED> instruction: 00000002
+   8:	00040000 			@ <UNDEFINED> instruction: 00040000
+   c:	00000000 			@ <UNDEFINED> instruction: 00000000
+  10:	20000010 			@ <UNDEFINED> instruction: 20000010
+  14:	00000098 			@ <UNDEFINED> instruction: 00000098
+	...
+  20:	0000001c 			@ <UNDEFINED> instruction: 0000001c
+  24:	01110002 			@ <UNDEFINED> instruction: 01110002
+  28:	00040000 			@ <UNDEFINED> instruction: 00040000
+  2c:	00000000 			@ <UNDEFINED> instruction: 00000000
+  30:	200000a8 			@ <UNDEFINED> instruction: 200000a8
+  34:	0000002c 			@ <UNDEFINED> instruction: 0000002c
+	...
+
+Disassembly of section .debug_line:
+
+00000000 <.debug_line>:
+   0:	0000009a 			@ <UNDEFINED> instruction: 0000009a
+   4:	00240003 			@ <UNDEFINED> instruction: 00240003
+   8:	01020000 			@ <UNDEFINED> instruction: 01020000
+   c:	000d0efb 	strdeq	r0, [sp], -fp
+  10:	01010101 			@ <UNDEFINED> instruction: 01010101
+  14:	01000000 			@ <UNDEFINED> instruction: 01000000
+  18:	00010000 			@ <UNDEFINED> instruction: 00010000
+  1c:	6f6d656d 			@ <UNDEFINED> instruction: 6f6d656d
+  20:	745f7972 			@ <UNDEFINED> instruction: 745f7972
+  24:	2e747365 			@ <UNDEFINED> instruction: 2e747365
+  28:	00000063 			@ <UNDEFINED> instruction: 00000063
+  2c:	1b050000 			@ <UNDEFINED> instruction: 1b050000
+  30:	10020500 			@ <UNDEFINED> instruction: 10020500
+  34:	03200000 	nopeq	{0}	@ <UNPREDICTABLE>
+  38:	1805010b 			@ <UNDEFINED> instruction: 1805010b
+  3c:	3f0f053e 			@ <UNDEFINED> instruction: 3f0f053e
+  40:	053d1005 			@ <UNDEFINED> instruction: 053d1005
+  44:	10052e15 			@ <UNDEFINED> instruction: 10052e15
+  48:	2e15052f 			@ <UNDEFINED> instruction: 2e15052f
+  4c:	05310e05 			@ <UNDEFINED> instruction: 05310e05
+  50:	20052e05 			@ <UNDEFINED> instruction: 20052e05
+  54:	4a170521 			@ <UNDEFINED> instruction: 4a170521
+  58:	02001e05 			@ <UNDEFINED> instruction: 02001e05
+  5c:	05490304 			@ <UNDEFINED> instruction: 05490304
+  60:	04020017 			@ <UNDEFINED> instruction: 04020017
+  64:	13053c01 	movwne	r3, #23553	@ 0x5c01
+  68:	5b1b0542 			@ <UNDEFINED> instruction: 5b1b0542
+  6c:	053d1505 			@ <UNDEFINED> instruction: 053d1505
+  70:	17052e0e 			@ <UNDEFINED> instruction: 17052e0e
+  74:	3f1b0521 			@ <UNDEFINED> instruction: 3f1b0521
+  78:	052e0905 			@ <UNDEFINED> instruction: 052e0905
+  7c:	04020039 			@ <UNDEFINED> instruction: 04020039
+  80:	2c052003 			@ <UNDEFINED> instruction: 2c052003
+  84:	01040200 			@ <UNDEFINED> instruction: 01040200
+  88:	030f053c 	movweq	r0, #62780	@ 0xf53c
+  8c:	0c054a77 			@ <UNDEFINED> instruction: 0c054a77
+  90:	05ba0d03 			@ <UNDEFINED> instruction: 05ba0d03
+  94:	0a052f05 			@ <UNDEFINED> instruction: 0a052f05
+  98:	00020230 			@ <UNDEFINED> instruction: 00020230
+  9c:	00500101 			@ <UNDEFINED> instruction: 00500101
+  a0:	00050000 			@ <UNDEFINED> instruction: 00050000
+  a4:	002a0004 			@ <UNDEFINED> instruction: 002a0004
+  a8:	01020000 			@ <UNDEFINED> instruction: 01020000
+  ac:	0d0efb01 	vstreq	d15, [lr, #-4]
+  b0:	01010100 			@ <UNDEFINED> instruction: 01010100
+  b4:	00000001 			@ <UNDEFINED> instruction: 00000001
+  b8:	01000001 			@ <UNDEFINED> instruction: 01000001
+  bc:	011f0101 			@ <UNDEFINED> instruction: 011f0101
+  c0:	00000000 			@ <UNDEFINED> instruction: 00000000
+  c4:	021f0102 			@ <UNDEFINED> instruction: 021f0102
+  c8:	0027020f 			@ <UNDEFINED> instruction: 0027020f
+  cc:	27000000 			@ <UNDEFINED> instruction: 27000000
+  d0:	00000000 			@ <UNDEFINED> instruction: 00000000
+  d4:	a8020500 			@ <UNDEFINED> instruction: a8020500
+  d8:	03200000 	nopeq	{0}	@ <UNPREDICTABLE>
+  dc:	21310112 			@ <UNDEFINED> instruction: 21310112
+  e0:	21213021 			@ <UNDEFINED> instruction: 21213021
+  e4:	32242f21 			@ <UNDEFINED> instruction: 32242f21
+  e8:	312e6d03 			@ <UNDEFINED> instruction: 312e6d03
+  ec:	0002022f 			@ <UNDEFINED> instruction: 0002022f
+  f0:	Address 0xf0 is out of bounds.
+
+
+Disassembly of section .debug_str:
+
+00000000 <.debug_str>:
+   0:	69736e75 			@ <UNDEFINED> instruction: 69736e75
+   4:	64656e67 			@ <UNDEFINED> instruction: 64656e67
+   8:	746e6920 			@ <UNDEFINED> instruction: 746e6920
+   c:	6f6c6700 			@ <UNDEFINED> instruction: 6f6c6700
+  10:	5f6c6162 			@ <UNDEFINED> instruction: 5f6c6162
+  14:	00726176 			@ <UNDEFINED> instruction: 00726176
+  18:	20554e47 			@ <UNDEFINED> instruction: 20554e47
+  1c:	20333243 			@ <UNDEFINED> instruction: 20333243
+  20:	312e3531 			@ <UNDEFINED> instruction: 312e3531
+  24:	2d20302e 			@ <UNDEFINED> instruction: 2d20302e
+  28:	7570636d 			@ <UNDEFINED> instruction: 7570636d
+  2c:	726f633d 			@ <UNDEFINED> instruction: 726f633d
+  30:	2d786574 			@ <UNDEFINED> instruction: 2d786574
+  34:	2033336d 			@ <UNDEFINED> instruction: 2033336d
+  38:	68746d2d 			@ <UNDEFINED> instruction: 68746d2d
+  3c:	20626d75 			@ <UNDEFINED> instruction: 20626d75
+  40:	6c666d2d 			@ <UNDEFINED> instruction: 6c666d2d
+  44:	2d74616f 			@ <UNDEFINED> instruction: 2d74616f
+  48:	3d696261 			@ <UNDEFINED> instruction: 3d696261
+  4c:	74666f73 			@ <UNDEFINED> instruction: 74666f73
+  50:	616d2d20 			@ <UNDEFINED> instruction: 616d2d20
+  54:	3d686372 			@ <UNDEFINED> instruction: 3d686372
+  58:	766d7261 			@ <UNDEFINED> instruction: 766d7261
+  5c:	2e6d2d38 			@ <UNDEFINED> instruction: 2e6d2d38
+  60:	6e69616d 			@ <UNDEFINED> instruction: 6e69616d
+  64:	7073642b 			@ <UNDEFINED> instruction: 7073642b
+  68:	20672d20 			@ <UNDEFINED> instruction: 20672d20
+  6c:	20304f2d 			@ <UNDEFINED> instruction: 20304f2d
+  70:	7266662d 			@ <UNDEFINED> instruction: 7266662d
+  74:	74736565 			@ <UNDEFINED> instruction: 74736565
+  78:	69646e61 			@ <UNDEFINED> instruction: 69646e61
+  7c:	7500676e 			@ <UNDEFINED> instruction: 7500676e
+  80:	33746e69 			@ <UNDEFINED> instruction: 33746e69
+  84:	00745f32 			@ <UNDEFINED> instruction: 00745f32
+  88:	6e69616d 			@ <UNDEFINED> instruction: 6e69616d
+  8c:	6d656d00 			@ <UNDEFINED> instruction: 6d656d00
+  90:	5f79726f 			@ <UNDEFINED> instruction: 5f79726f
+  94:	74736574 			@ <UNDEFINED> instruction: 74736574
+  98:	6400632e 			@ <UNDEFINED> instruction: 6400632e
+  9c:	79616c65 			@ <UNDEFINED> instruction: 79616c65
+  a0:	6f682f00 			@ <UNDEFINED> instruction: 6f682f00
+  a4:	6f2f656d 			@ <UNDEFINED> instruction: 6f2f656d
+  a8:	74657463 			@ <UNDEFINED> instruction: 74657463
+  ac:	65722f73 			@ <UNDEFINED> instruction: 65722f73
+  b0:	65646f6e 			@ <UNDEFINED> instruction: 65646f6e
+  b4:	6d656d2f 			@ <UNDEFINED> instruction: 6d656d2f
+  b8:	5f79726f 			@ <UNDEFINED> instruction: 5f79726f
+  bc:	6c707865 			@ <UNDEFINED> instruction: 6c707865
+  c0:	7461726f 			@ <UNDEFINED> instruction: 7461726f
+  c4:	006e6f69 			@ <UNDEFINED> instruction: 006e6f69
+  c8:	74736574 			@ <UNDEFINED> instruction: 74736574
+  cc:	7272615f 			@ <UNDEFINED> instruction: 7272615f
+  d0:	73007961 	movwvc	r7, #2401	@ 0x961
+  d4:	5f6d6172 			@ <UNDEFINED> instruction: 5f6d6172
+  d8:	00727470 			@ <UNDEFINED> instruction: 00727470
+  dc:	706d6574 			@ <UNDEFINED> instruction: 706d6574
+  e0:	61747300 			@ <UNDEFINED> instruction: 61747300
+  e4:	70757472 			@ <UNDEFINED> instruction: 70757472
+  e8:	4700532e 			@ <UNDEFINED> instruction: 4700532e
+  ec:	4120554e 			@ <UNDEFINED> instruction: 4120554e
+  f0:	2e322053 			@ <UNDEFINED> instruction: 2e322053
+  f4:	Address 0xf4 is out of bounds.
+
+
+Disassembly of section .comment:
+
+00000000 <.comment>:
+   0:	3a434347 			@ <UNDEFINED> instruction: 3a434347
+   4:	65462820 			@ <UNDEFINED> instruction: 65462820
+   8:	61726f64 			@ <UNDEFINED> instruction: 61726f64
+   c:	2e353120 			@ <UNDEFINED> instruction: 2e353120
+  10:	2d302e31 			@ <UNDEFINED> instruction: 2d302e31
+  14:	63662e31 			@ <UNDEFINED> instruction: 63662e31
+  18:	20293134 			@ <UNDEFINED> instruction: 20293134
+  1c:	312e3531 			@ <UNDEFINED> instruction: 312e3531
+  20:	Address 0x20 is out of bounds.
+
+
+Disassembly of section .ARM.attributes:
+
+00000000 <.ARM.attributes>:
+   0:	00003141 			@ <UNDEFINED> instruction: 00003141
+   4:	61656100 			@ <UNDEFINED> instruction: 61656100
+   8:	01006962 			@ <UNDEFINED> instruction: 01006962
+   c:	00000027 			@ <UNDEFINED> instruction: 00000027
+  10:	4d2d3805 			@ <UNDEFINED> instruction: 4d2d3805
+  14:	49414d2e 			@ <UNDEFINED> instruction: 49414d2e
+  18:	1106004e 			@ <UNDEFINED> instruction: 1106004e
+  1c:	03094d07 	movweq	r4, #40199	@ 0x9d07
+  20:	01140412 			@ <UNDEFINED> instruction: 01140412
+  24:	03170115 			@ <UNDEFINED> instruction: 03170115
+  28:	011a0118 			@ <UNDEFINED> instruction: 011a0118
+  2c:	0122061e 			@ <UNDEFINED> instruction: 0122061e
+  30:	Address 0x30 is out of bounds.
+
+
+Disassembly of section .debug_frame:
+
+00000000 <.debug_frame>:
+   0:	0000000c 			@ <UNDEFINED> instruction: 0000000c
+   4:	ffffffff 			@ <UNDEFINED> instruction: ffffffff
+   8:	7c020001 			@ <UNDEFINED> instruction: 7c020001
+   c:	000d0c0e 			@ <UNDEFINED> instruction: 000d0c0e
+  10:	00000018 			@ <UNDEFINED> instruction: 00000018
+  14:	00000000 			@ <UNDEFINED> instruction: 00000000
+  18:	20000010 			@ <UNDEFINED> instruction: 20000010
+  1c:	0000008c 			@ <UNDEFINED> instruction: 0000008c
+  20:	87040e41 			@ <UNDEFINED> instruction: 87040e41
+  24:	180e4101 			@ <UNDEFINED> instruction: 180e4101
+  28:	00070d41 			@ <UNDEFINED> instruction: 00070d41
+  2c:	00000018 			@ <UNDEFINED> instruction: 00000018
+  30:	00000000 			@ <UNDEFINED> instruction: 00000000
+  34:	2000009c 			@ <UNDEFINED> instruction: 2000009c
+  38:	0000000c 			@ <UNDEFINED> instruction: 0000000c
+  3c:	87080e41 			@ <UNDEFINED> instruction: 87080e41
+  40:	41018e02 			@ <UNDEFINED> instruction: 41018e02
+  44:	0000070d 			@ <UNDEFINED> instruction: 0000070d
+
+Disassembly of section .debug_line_str:
+
+00000000 <.debug_line_str>:
+   0:	6d6f682f 			@ <UNDEFINED> instruction: 6d6f682f
+   4:	636f2f65 			@ <UNDEFINED> instruction: 636f2f65
+   8:	73746574 			@ <UNDEFINED> instruction: 73746574
+   c:	6e65722f 			@ <UNDEFINED> instruction: 6e65722f
+  10:	2f65646f 			@ <UNDEFINED> instruction: 2f65646f
+  14:	6f6d656d 			@ <UNDEFINED> instruction: 6f6d656d
+  18:	655f7972 			@ <UNDEFINED> instruction: 655f7972
+  1c:	6f6c7078 			@ <UNDEFINED> instruction: 6f6c7078
+  20:	69746172 			@ <UNDEFINED> instruction: 69746172
+  24:	73006e6f 	movwvc	r6, #3695	@ 0xe6f
+  28:	74726174 			@ <UNDEFINED> instruction: 74726174
+  2c:	532e7075 			@ <UNDEFINED> instruction: 532e7075
+	...
